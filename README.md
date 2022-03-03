@@ -11,6 +11,7 @@ Projeto Full-Stack com ReactJs, NodeJs e React Native, agregando muito conhecime
 ## Tecnologias usadas
 Este projeto foi desenvolvido com as seguintes tecnologias:
 - [Node.js](https://nodejs.org/en/)
+- [SQLite](https://www.sqlite.org/index.html)
 - [Expo](https://expo.io/)
 - [Express](https://expressjs.com/pt-br/)
 - [ExpressJs](https://expressjs.com/pt-br/)
