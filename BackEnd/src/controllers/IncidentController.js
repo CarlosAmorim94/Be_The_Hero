@@ -10,9 +10,17 @@ module.exports = {
     const [ count ] = await connection('incidents').count();
 
     const incidents = await connection('incidents')
+    .join('ongs', 'ongs_id', '=', 'incidents.ong.id')
     .limit(5) //Limita para 5 registros
     .offset((page - 1) *5 ) //pula 5 registros por página, começa do 0
-    .select('*');
+    .select([
+      'incidents.*',
+      'ongs.name',
+      'ongs.email',
+      'ongs.whatsapp',
+      'ongs.city',
+      'ongs.uf',
+    ]);
 
     response.header('X-Total-Count', count['count(*)']);
 
