@@ -4,9 +4,19 @@ const connection = require('../database/connection');
 module.exports = {
 
   async index(request, response) {
-    const incidents = await connection('incidents').select('*');
+    const { page = 1 } = request.query;
 
-    response.json({ incidents });
+    // colchetes em volta retorna o primeiro valor da chamada
+    const [ count ] = await connection('incidents').count();
+
+    const incidents = await connection('incidents')
+    .limit(5) //Limita para 5 registros
+    .offset((page - 1) *5 ) //pula 5 registros por página, começa do 0
+    .select('*');
+
+    response.header('X-Total-Count', count['count(*)']);
+
+    response.json(incidents);
   },
 
   async create(request, response) {
