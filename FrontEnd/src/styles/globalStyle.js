@@ -43,6 +43,7 @@ export default createGlobalStyle`
 
   form textarea {
     width: 100%;
+    margin-top: 8px ;
     min-height: 140px;
     resize: none;
     color: var(--black);
