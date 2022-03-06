@@ -1,9 +1,15 @@
-import Logon from "./pages/Logon";
+import React from 'react';
+
+import Routes from './routes';
+import GlobalStyle from './styles/globalStyle';
 
 function App() {
   return (
     <>
-      <Logon />
+
+      <GlobalStyle />
+      <Routes />
+      
     </>
   );
 }
