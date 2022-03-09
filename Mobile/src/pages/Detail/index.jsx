@@ -2,6 +2,7 @@ import React from 'react'
 import { FontAwesome, Feather } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { View, Text, Image, TouchableOpacity, Linking } from 'react-native'
+import * as MailComposer from 'expo-mail-composer';
 
 
 import styles from './styles'
@@ -10,8 +11,26 @@ import logoImage from '../../assets/logo.png'
 
 export default function Detail() {
 
+  const navigation = useNavigation();
+  const route = useRoute();
+
+  const incident = route.params.incident;
+  const message = `Olá ${incident.name}, estou entrando em contato pois gostaria de ajudar no caso ${incident.title}, com o valor de ${Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(incident.value)}`
+
   function navigateBack() {
     navigation.goBack()
+  }
+
+  function sendMail() {
+    MailComposer.composeAsync({
+      subject: `Herói do caso: ${incident.title}`,
+      recipients: [incident.email],
+      body: message,
+    })
+  }
+
+  function sendWhatsapp() {
+    Linking.openURL(`whatsapp://send?phone=55${incident.whatsapp}&text=${message}`)
   }
 
   return (
@@ -27,17 +46,18 @@ export default function Detail() {
       </View>
 
       <View style={ styles.incident }>
-        <Text style={ styles.incidentOng }>
-          APAD de Botucatu/SP
-        </Text>
+      <Text style={[styles.incidentOng, {marginTop: 0}]}>ONG:</Text>
+          <Text style={styles.incidentValue}>{incident.name} de {incident.city}/{incident.uf}</Text>
 
-        <Text style={ styles.incidentDescription }>
-          Cachorrinha atropelada
-        </Text>
+          <Text style={styles.incidentOng}>CASO:</Text>
+          <Text style={styles.incidentValue}>{incident.title}</Text>
 
-        <Text style={ styles.incidentValue }>
-        R$ 120,00
-        </Text>
+          <Text style={styles.incidentOng}>VALOR:</Text>
+          <Text style={styles.incidentValue}>{Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+             }).format(incident.value)}
+          </Text>
       </View>
 
       <View style={ styles.contact }>
@@ -46,12 +66,12 @@ export default function Detail() {
 
         <Text style={ styles.heroDescription }> Entre em contato:</Text>
         <View style={ styles.contactButtons }>
-          <TouchableOpacity onPress={ () => {} } style={ styles.buttonWhatsapp }>
+          <TouchableOpacity onPress={ sendWhatsapp } style={ styles.buttonWhatsapp }>
             <FontAwesome name="whatsapp" size={ 32 } color="#E9FAEF"/>
             <Text style={[ styles.buttonText, styles.buttonTextWhatsapp ]}>Whatsapp</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={ () => {}  } style={ styles.buttonEmail }>
+          <TouchableOpacity onPress={sendMail} style={ styles.buttonEmail }>
             <FontAwesome name="envelope-o" size={ 30 } color="#FBE8EC"/>
             <Text style={[ styles.buttonText, styles.buttonTextEmail ]}>E-mail</Text>
           </TouchableOpacity>

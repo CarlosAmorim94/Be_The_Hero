@@ -36,7 +36,8 @@ export default StyleSheet.create({
   incidentOng: {
     fontSize: 18,
     color: '#333',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginTop: 10,
   },
 
   incidentDescription: {
